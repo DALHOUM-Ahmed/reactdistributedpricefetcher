@@ -1,25 +1,102 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import TokenPriceFetcher from "./components/TokenPriceFetcher";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>Token Price Fetcher</h2>
+      <TokenPriceFetcher
+        tokenAddress="0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9"
+        network="ethereum"
+        tokenName="AAVE"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x0D8775F648430679A709E98d2b0Cb6250d2887EF"
+        network="ethereum"
+        tokenName="BAT"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0xc00e94Cb662C3520282E6f5717214004A7f26888"
+        network="ethereum"
+        tokenName="COMP"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x514910771AF9Ca656af840dff83E8264EcF986CA"
+        network="ethereum"
+        tokenName="LINK"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE"
+        network="ethereum"
+        tokenName="SHIB"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x967da4048cD07aB37855c090aAF366e4ce1b9F48"
+        network="ethereum"
+        tokenName="OCEAN"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x4575f41308EC1483f3d399aa9a2826d74Da13Deb"
+        network="ethereum"
+        tokenName="OXT"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x408e41876cCCDC0F92210600ef50372656052a38"
+        network="ethereum"
+        tokenName="REN"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x0000000000085d4780B73119b644AE5ecd22b376"
+        network="ethereum"
+        tokenName="TUSD"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x1985365e9f78359a9B6AD760e32412f4a445E862"
+        network="ethereum"
+        tokenName="REP"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x221657776846890989a759BA2973e427DfF5C9bB"
+        network="ethereum"
+        tokenName="REPv2"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x0000000000095413afC295d19EDeb1Ad7B71c952"
+        network="ethereum"
+        tokenName="LON"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x4fE83213D56308330EC302a8BD641f1d0113A4Cc"
+        network="ethereum"
+        tokenName="NU"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
+        network="ethereum"
+        tokenName="UNI"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x0000000000085d4780B73119b644AE5ecd22b376"
+        network="ethereum"
+        tokenName="YFI"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x477bC8d23c634C154061869478bce96BE6045D12"
+        network="bsc"
+        tokenName="SFUND"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
+        network="bsc"
+        tokenName="BTCB"
+      />
+      <TokenPriceFetcher
+        tokenAddress="0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+        network="bsc"
+        tokenName="Cake"
+      />
     </div>
   );
-}
+};
 
 export default App;
