@@ -1,10 +1,6 @@
 export const networkConfig = {
   ethereum: {
-    rpcUrls: [
-      "https://eth.llamarpc.com",
-      "https://ethereum.publicnode.com",
-      "https://ethereum.blockpi.network/v1/rpc/public",
-    ],
+    rpcUrls: ["https://ethereum.publicnode.com"],
     uniswapRouter: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D", // Uniswap Router V2 address
     wethAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     usdtAddress: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
@@ -19,7 +15,6 @@ export const networkConfig = {
   },
   bsc: {
     rpcUrls: [
-      "https://binance.llamarpc.com",
       "https://bsc-dataseed2.bnbchain.org",
       "https://bsc-dataseed1.ninicoin.io",
       "https://bsc-dataseed.bnbchain.org",

@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { networkConfig } from "../networkConfig";
 
+let globalEthValue;
+
 const TokenPriceFetcher = ({ tokenAddress, network, tokenName }) => {
   const [price, setPrice] = useState(null);
-  const [ethValue, setEthValue] = useState(null);
+  // const [ethValue, setEthValue] = useState(null);
 
   const fetchEthValue = async () => {
     try {
@@ -30,7 +32,7 @@ const TokenPriceFetcher = ({ tokenAddress, network, tokenName }) => {
         wethAddress,
         usdtAddress,
       ]);
-      setEthValue(amountOut[1]);
+      globalEthValue = amountOut[1];
     } catch (error) {
       console.error("Error fetching ETH value:", error);
     }
@@ -38,6 +40,9 @@ const TokenPriceFetcher = ({ tokenAddress, network, tokenName }) => {
 
   const fetchPrice = async () => {
     try {
+      if (!globalEthValue) {
+        throw "no ethValue";
+      }
       const { rpcUrls, uniswapRouter, wethAddress } = networkConfig[network];
       const rpcUrl = rpcUrls[Math.floor(Math.random() * rpcUrls.length)];
       console.log("chosen rpc", rpcUrl);
@@ -68,28 +73,27 @@ const TokenPriceFetcher = ({ tokenAddress, network, tokenName }) => {
       const ethAmount = ethers.utils.formatUnits(amountOut[1], "24");
 
       console.log("ethAmount", ethAmount);
-      console.log("ethValue", ethValue);
+      console.log("ethValue", globalEthValue);
 
-      const tokenPriceInUsd = ethAmount * ethValue;
+      const tokenPriceInUsd = ethAmount * globalEthValue;
 
       setPrice(tokenPriceInUsd);
     } catch (error) {
       console.error("Error fetching token price:", error);
     }
-    setTimeout(fetchPrice, 10000 + Math.random() * 5000);
+    console.log("setting timer");
+    setTimeout(fetchPrice, 1000 + Math.random() * 5000);
   };
 
   useEffect(() => {
     fetchEthValue();
-    const interval = setInterval(fetchEthValue, 600000);
+    const interval = setInterval(fetchEthValue, 3000);
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    if (ethValue) {
-      fetchPrice();
-    }
-  }, [ethValue]);
+    fetchPrice();
+  }, []);
 
   return (
     <div>
