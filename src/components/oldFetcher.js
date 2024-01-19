@@ -4,25 +4,15 @@ import { networkConfig } from "../networkConfig";
 
 let globalEthValue;
 
-const TokenPriceFetcher = ({
-  tokenAddress,
-  network,
-  tokenName,
-  tokenDecimals,
-}) => {
+const TokenPriceFetcher = ({ tokenAddress, network, tokenName }) => {
   const [price, setPrice] = useState(null);
   const [lastFetchTime, setLastFetchTime] = useState(Date.now());
-  const [elapsedTime, setElapsedTime] = useState("0.00");
-  const [routerAddress, setRouterAddress] = useState("");
-  const [rpcUrl, setRpcUrl] = useState("");
-  const [lastFails, setLastFails] = useState(0);
   // const [ethValue, setEthValue] = useState(null);
 
   const fetchEthValue = async () => {
     try {
       const { rpcUrls, uniswapRouter, wethAddress, usdtAddress } =
         networkConfig[network];
-      setRouterAddress(uniswapRouter);
       const rpcUrl = rpcUrls[Math.floor(Math.random() * rpcUrls.length)];
       const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
       const contract = new ethers.Contract(
@@ -55,9 +45,7 @@ const TokenPriceFetcher = ({
         throw "no ethValue";
       }
       const { rpcUrls, uniswapRouter, wethAddress } = networkConfig[network];
-
       const rpcUrl = rpcUrls[Math.floor(Math.random() * rpcUrls.length)];
-      setRpcUrl(rpcUrl);
       console.log("chosen rpc", rpcUrl);
       const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
       const contract = new ethers.Contract(
@@ -68,40 +56,41 @@ const TokenPriceFetcher = ({
         provider
       );
 
+      // assuming the token has 18 decimal places
       const oneTokenInSmallestUnit = ethers.utils.parseUnits(
         "1.0",
-        tokenDecimals
+        networkConfig[network].wethDecimals
       );
-      // console.log("tokenAddress", tokenAddress);
-      // console.log("oneTokenInSmallestUnit", parseFloat(oneTokenInSmallestUnit));
 
+      // get the amount of ETH for 1 unit of the token
+      console.log("price params", network, oneTokenInSmallestUnit, [
+        tokenAddress,
+        wethAddress,
+      ]);
       const amountOut = await contract.getAmountsOut(oneTokenInSmallestUnit, [
         tokenAddress,
         wethAddress,
       ]);
-
-      console.log("amountOut", parseInt(amountOut[1]));
-
       const ethAmount = ethers.utils.formatUnits(amountOut[1], "24");
 
-      // console.log("ethAmount", ethAmount);
-      // console.log("ethValue", parseFloat(globalEthValue));
+      console.log("ethAmount", ethAmount);
+      console.log("ethValue", globalEthValue);
 
       const tokenPriceInUsd = ethAmount * globalEthValue;
 
       setPrice(tokenPriceInUsd);
-      setLastFails(0);
       setLastFetchTime(Date.now());
     } catch (error) {
-      setLastFails(lastFails + 1);
       console.error("Error fetching token price:", error);
     }
     console.log("setting timer");
     setTimeout(fetchPrice, 1000 + Math.random() * 5000);
   };
-  // useEffect(() => {
-  //   fetchPrice();
-  // }, [tokenAddress, network, tokenDecimals]);
+  const timeElapsed = () => {
+    const now = Date.now();
+    const elapsed = now - lastFetchTime;
+    return (elapsed / 1000).toFixed(2); // Time in seconds
+  };
 
   useEffect(() => {
     fetchEthValue();
@@ -109,31 +98,22 @@ const TokenPriceFetcher = ({
     return () => clearInterval(interval);
   }, []);
 
-  const updateElapsedTime = () => {
-    const now = Date.now();
-    const elapsed = now - lastFetchTime;
-    setElapsedTime((elapsed / 1000).toFixed(2));
-  };
-
-  useEffect(() => {
-    const timer = setInterval(updateElapsedTime, 200);
-    return () => clearInterval(timer);
-  }, [lastFetchTime]);
-
   useEffect(() => {
     fetchPrice();
   }, []);
 
   return (
-    <>
-      <td>
-        &nbsp;{price ? `$${price.toFixed(6)}` : "Fetching price..."}&nbsp;
-      </td>
-      <td>&nbsp;{elapsedTime} seconds&nbsp;</td>
-      <td>&nbsp;{routerAddress}&nbsp;</td>
-      <td>&nbsp;{rpcUrl}&nbsp;</td>
-      <td>&nbsp;{lastFails}&nbsp;</td>
-    </>
+    <div>
+      {price ? (
+        <p>
+          Price of {tokenName} ({network}): ${price}
+          <br />
+          Time elapsed since last fetch: {timeElapsed()} seconds
+        </p>
+      ) : (
+        <p>Fetching price...</p>
+      )}
+    </div>
   );
 };
 
