@@ -91,25 +91,6 @@ const defaultTokens = [
     tokenName: "YFI",
     tokenDecimals: "18",
   },
-
-  // {
-  //   tokenAddress: "0x477bC8d23c634C154061869478bce96BE6045D12",
-  //   network: "bsc",
-  //   tokenName: "SFUND",
-  //   tokenDecimals: "18",
-  // },
-  // {
-  //   tokenAddress: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
-  //   network: "bsc",
-  //   tokenName: "BTCB",
-  //   tokenDecimals: "18",
-  // },
-  // {
-  //   tokenAddress: "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
-  //   network: "bsc",
-  //   tokenName: "Cake",
-  //   tokenDecimals: "18",
-  // },
 ];
 
 const App = () => {
@@ -193,14 +174,12 @@ const App = () => {
                   }
                 />
               </td>
-              {/* TokenPriceFetcher is used here to fetch and display the price */}
               <TokenPriceFetcher
                 tokenAddress={token.tokenAddress}
                 network={token.network}
                 tokenName={token.tokenName}
                 tokenDecimals={token.tokenDecimals}
               />
-              {/* Other table cells for last fetched, router address, decimals, fetched RPC */}
               <td>
                 <button onClick={() => removeToken(index)}>Remove</button>
               </td>
